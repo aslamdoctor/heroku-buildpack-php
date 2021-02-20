@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build Path: /app/.heroku/php/
 dep_url=git://github.com/grpc/grpc.git
-grpc_dir=grpc
+grpc_root="$(pwd)"
 echo "-----> Building Grpc..."
 
 ### Groc
@@ -11,7 +11,10 @@ if [ ! -d "$grpc_dir" ]; then
   echo "[ERROR] Failed to find grpc directory $grpc_dir"
   exit
 fi
-cd $grpc_dir/build
+cd src/php/ext/grpc
+phpize
+GRPC_LIB_SUBDIR=libs/opt ./configure --enable-grpc="${grpc_root}"
+#cd $grpc_dir/build
 
 # /app/php/bin/phpize
 # ./configure --enable-grpc --with-php-config=$PHP_ROOT/bin/php-config
